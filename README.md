@@ -1,4 +1,4 @@
-# SAE_Feature_Interpretability_Tool
+# Gemma-2B SAE feature interpretability multitool
 A tool to assist in the interpretation of learned features in sparse autoencoders (in particular the four SAE's trained by Joseph Bloom on Gemma-2B).
 
 ## Overview
