@@ -1,3 +1,6 @@
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/your-username/SAE_Feature_Interpretability_Tool/blob/main/notebooks/SAE_Interpretability_Research.ipynb)
+
+
 # Gemma-2B SAE feature interpretability multitool
 A tool to assist in the interpretation of learned features in sparse autoencoders (in particular the four SAE's trained by Joseph Bloom on Gemma-2B).
 
