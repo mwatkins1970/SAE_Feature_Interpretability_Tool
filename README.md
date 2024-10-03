@@ -1,4 +1,4 @@
-[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/your-username/SAE_Feature_Interpretability_Tool/blob/main/notebooks/SAE_Interpretability_Research.ipynb)
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/mwatkins1970/SAE_Feature_Interpretability_Tool/blob/main/notebooks/SAE_feature_interpretability_multitool.ipynb)
 
 
 # Gemma-2B SAE feature interpretability multitool
