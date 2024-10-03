@@ -7,7 +7,7 @@ This tool two main functions. For both, given a choice of SAE feature, a "featur
 * produce "definition trees" for "ghost tokens" based on the feature vector
 * produce lists of tokens whose embeddings are close to the feature vector (in a very specific sense)
 
-Functionality 1: Definition trees
+### Functionality 1: Definition trees
 
 choose various parameters
 cumulative probability cutoff
@@ -18,7 +18,7 @@ trimming tree
 token centroid offset seems crucial to get anything to work (but is included as optional)
 
 
-Functionality 2: Token lists
+### Functionality 2: Token lists
 
 controls include an exponent which controls tradeoff between closeness-to-feature-vector and farness-from-centroid
 
