@@ -72,7 +72,7 @@ There is significant scope for enhancing and extending this project. Possible ad
 - **API integration for feature interpretation**: Exporting outputs for further interpretation to LLMs via API, enabling automated analysis.
 - **Feature taxonomy and parameter analysis**: Classifying features according to the efficacy of these two tools in capturing the types of text samples they activate on, as well as the typical parameter settings needed to produce relevant effective outputs.
 
-I'm most excited about the following, probably the next thing to be explored:
+I'm most excited about the following, probably the next direction to be explored:
 - **Steering vector and clamping applications**: Leveraging feature vectors as "steering vectors" and/or clamping the relevant feature at a high activation in Functionality 1 to direct the interpretive process, almost certainly enhancing the relevance of the generated trees.
 
 ## Contributions
