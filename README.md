@@ -15,7 +15,7 @@ These can potentially aid in the interpretation of learned features in LLMs.
 
 ### Functionality 1: Definition trees
 
-This functionality constructs a "definition tree" based on a user-selected SAE feature. Users can control various parameters, including:
+This tool constructs a "definition tree" based on a user-selected SAE feature. Users can control various parameters, including:
 
 - **choice of encoder or decoder weights**: For some features, using encoder weights to construct the feature vector – and thereby the "ghost token" to be defined – produces more useful results; for others, decoder weights work better (it's currently unclear why this is) 
 - **token centroid offset (Boolean)**: Optionally offsets the feature vector by the token embedding centroid, which seems necessary to get any useful results (again, it's unclear why)
@@ -26,13 +26,15 @@ The result is a tree that hierarchically displays the most probable definitions 
 
 ### Functionality 2: Token lists
 
-This function identifies the tokens closest to the feature vector according to a customisable cosine distance metric. Because (due to the quirks of high-dimensional geometry) the tokens whose embeddings are cosine-closest to the token embedding centroid are cosine-closest to _everything_, these are here filtered out by dividing the token embedding's **cosine distance to the feature vector** by its **cosine distance to centroid** (which thereby incentivises the former being small and the latter being large).
+This tool identifies the tokens closest to the feature vector according to a customisable cosine distance metric. Because (due to the quirks of high-dimensional geometry) the tokens whose embeddings are cosine-closest to the token embedding centroid are cosine-closest to _everything_, these are here filtered out by dividing the token embedding's **cosine distance to the feature vector** by its **cosine distance to centroid** (which thereby incentivises the former being small and the latter being large).
 
 Key configurable parameters include:
 
 - **numerator exponent**: Adjusts the filtering metric by raising the numerator (cosine distance to feature vector) by a chosen power.
 - **PCA component weighting**: Modifies the feature vector with first PCA direction, as in Functionality 1.
 - **Centroid offset and scaling**: The same as in Functionality 1.
+
+In many cases the tokens atop the output lists are clearly related to the types of text samples that most strongly activate the feature in question. 
 
 ### Potential automation
 If passed to appropriately powerful LLMs via API, these token lists and definition tree data could perhaps facilitate concept-based interpretability studies of learned SAE features.
@@ -68,6 +70,7 @@ There is significant scope for enhancing and extending this project. Possible ad
 - **Enhanced base prompt customization**: Allowing customization of the base prompt for the "ghost token" definitions (currently, the base prompt is '''A typical definition of "{ghost token}" would be''').
 - **Expanded PCA and linear combination capabilities**: Exploring the impacts of multiple PCA components and linear combinations of encoder- and decoder-based feature vectors.
 - **API integration for feature interpretation**: Exporting outputs for further interpretation to LLMs via API, enabling automated analysis.
+- **Feature taxonomy and parameter analysis**: Classifying features according to the efficacy of these two tools in capturing the types of text samples they activate on, as well as the typical parameter settings needed to produce relevant effective outputs.
 
 I'm most excited about the following, probably the next thing to be explored:
 - **Steering vector and clamping applications**: Leveraging feature vectors as "steering vectors" and/or clamping the relevant feature at a high activation in Functionality 1 to direct the interpretive process, almost certainly enhancing the relevance of the generated trees.
