@@ -2,36 +2,40 @@
 
 # Gemma-2B SAE Feature Interpretability Multitool
 
-This tool assists in the interpretability of sparse autoencoder (SAE) features, specifically those trained by Joseph Bloom on the Gemma-2B model. By visualizing and probing the representations learned by these SAEs, the multitool supports a detailed examination of latent features and their interactions within large language models (LLMs). 
+This assists in the interpretability of sparse autoencoder (SAE) features, specifically [those trained by Joseph Bloom on the Gemma-2B model](https://huggingface.co/jbloom/Gemma-2b-Residual-Stream-SAEs). By visualising and probing the representations learned by these SAEs, the multitool supports a detailed examination of the kinds of patterns and associations captured by individual learned features within large language models (LLMs). 
 
 ## Overview
 
 The tool offers two main functionalities that serve as experimental probes into the model's learned representations:
 
-1. **Definition Trees for Ghost Tokens**: This functionality uses feature vectors to generate interpretive "definition trees," revealing complex, hierarchical token relationships.
-2. **Token Lists by Embedding Similarity**: This function generates lists of tokens that exhibit embedding similarities to the selected feature vector, shedding light on the kinds of token meanings associated with specific model features.
+1. **Definition trees for "ghost tokens"**: This functionality uses feature vectors to generate interpretive "definition trees," revealing complex, hierarchical relationships.
+2. **Token lists by embedding similarity**: This functionality generates lists of tokens that exhibit embedding similarities to the selected feature vector, shedding light on the kinds of tokens associated with specific model features.
 
-These tools can potentially aid in studying model alignment issues, such as interpretability, the impact of post-training adjustments, and persona stability within SAEs. 
+These can potentially aid in the interpretation of learned features in LLMs.
 
-### Functionality 1: Definition Trees
+### Functionality 1: Definition trees
 
-This function constructs a "definition tree" based on a user-selected SAE feature vector. Users can control the construction parameters, including:
+This functionality constructs a "definition tree" based on a user-selected SAE feature. Users can control various parameters, including:
 
-- **SAE Layer**: Choice of encoder or decoder feature weights at layers 0, 6, 10, or 12.
-- **Token Centroid Offset**: Optionally offsets the feature vector by the token embedding centroid, shifting the "ghost token" toward a central token embedding.
-- **Scaling and PCA Adjustments**: Fine-tune feature influence through scaling and PCA weighting.
+- **choice of encoder or decoder weights**: For some features, using encoder weights to construct the feature vector – and thereby the "ghost token" to be defined – produces more useful results; for others, decoder weights work better (it's currently unclear why this is) 
+- **token centroid offset (Boolean)**: Optionally offsets the feature vector by the token embedding centroid, which seems necessary to get any useful results (again, it's unclear why)
+- **scaling**: The default scaling for the feature vector is 3.8, the approximate mean distance-from-centroid for the token embeddings, which leads to a "ghost token" pointing in a direction determined by the feature weights, but lying at a typical (for tokens) distance from centroid. Lower values (around 2.5) seem to produce better results when decoder weights are used (it's currently unclear why) 
+- **PCA adjustments**: A linear combination of the feature vector and the first PCA component for the token embeddings can be used. With a default weighting of 0, this has no effect. For some features, some degree of PCA adjustment is crucial to get useful results.
 
-The result is a tree that maps relationships between tokens based on their cumulative probability in a rollout process, providing a visualized hierarchy that aids in interpretability.
+The result is a tree that hierarchically displays the most probable definitions Gemma-2B would produce for the "ghost token" if prompted at temperature 0. In many cases these are clearly related to the types of text samples that most strongly activate the feature in question. And their branching/"multiversal" structure seems to capture nuances beyond what simple linear descriptions can offer.
 
-### Functionality 2: Token Lists
+### Functionality 2: Token lists
 
-This function identifies the top tokens closest to the feature vector according to a customizable cosine distance metric. Key configurable parameters include:
+This function identifies the tokens closest to the feature vector according to a customisable cosine distance metric. Because (due to the quirks of high-dimensional geometry) the tokens whose embeddings are cosine-closest to the token embedding centroid are cosine-closest to _everything_, these are here filtered out by dividing the token embedding's **cosine distance to the feature vector** by its **cosine distance to centroid** (which thereby incentivises the former being small and the latter being large).
 
-- **Numerator Exponent**: Adjusts the distance metric by scaling the cosine distance.
-- **PCA Component Weighting**: Modifies the feature vector with principal component directions for exploratory analysis.
-- **Centroid Offset and Scaling**: Controls vector scaling and adjusts the feature vector origin, allowing for comparative studies of token proximity.
+Key configurable parameters include:
 
-These token lists can facilitate concept-based interpretability studies and offer empirical insights into the emergent behaviors that may arise as a consequence of feature activation.
+- **numerator exponent**: Adjusts the filtering metric by raising the numerator (cosine distance to feature vector) by a chosen power.
+- **PCA component weighting**: Modifies the feature vector with first PCA direction, as in Functionality 1.
+- **Centroid offset and scaling**: The same as in Functionality 1.
+
+### Potential automation
+If passed to appropriately powerful LLMs via API, these token lists and definition tree data could perhaps facilitate concept-based interpretability studies of learned SAE features.
 
 ## Getting Started
 
@@ -55,16 +59,18 @@ These token lists can facilitate concept-based interpretability studies and offe
 - Open the `notebooks/SAE_feature_interpretability_multitool.ipynb` file in Colab or Jupyter.
 - Follow the instructions in the notebook to load the model, select features, and generate interpretive visualizations.
 
-## Future Directions
+## Future directions
 
-There is significant scope for enhancing and extending this tool. Possible additions include:
+There is significant scope for enhancing and extending this project. Possible additions include:
 
-- **Adaptation to Other Models**: The tool could be generalized to work with SAEs trained on other LLMs.
-- **Improved Control Integration**: Merging common controls between functionalities for streamlined interaction.
-- **Enhanced Base Prompt Customization**: Allowing user-defined prompts for the "ghost token" definitions.
-- **Expanded PCA and Linear Combination Capabilities**: Exploring the impacts of multiple PCA components and combinations of encoder and decoder features.
-- **API Integration for Feature Interpretation**: Exporting outputs for further interpretation using LLMs like ChatGPT-4 or Claude, enabling automated analysis.
-- **Steering Vector Applications**: Leveraging feature vectors as "steering vectors" to direct the interpretive process, potentially enhancing the clarity and relevance of the generated trees.
+- **Adaptation to other models**: The tool could be easily generalised to work with SAEs trained on other LLMs.
+- **Improved control integration**: Merging common controls between functionalities for streamlined interaction.
+- **Enhanced base prompt customization**: Allowing customization of the base prompt for the "ghost token" definitions (currently, the base prompt is '''A typical definition of "{ghost token}" would be''').
+- **Expanded PCA and linear combination capabilities**: Exploring the impacts of multiple PCA components and linear combinations of encoder- and decoder-based feature vectors.
+- **API integration for feature interpretation**: Exporting outputs for further interpretation to LLMs via API, enabling automated analysis.
+
+I'm most excited about the following, probably the next thing to be explored:
+- **Steering vector and clamping applications**: Leveraging feature vectors as "steering vectors" and/or clamping the relevant feature at a high activation in Functionality 1 to direct the interpretive process, almost certainly enhancing the relevance of the generated trees.
 
 ## Contributions
 
