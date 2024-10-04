@@ -59,7 +59,7 @@ If passed to appropriately powerful LLMs via API, these token lists and definiti
 
 ### Usage
 - Open the `notebooks/SAE_feature_interpretability_multitool.ipynb` file in Colab or Jupyter.
-- Follow the instructions in the notebook to load the model, select features, and generate interpretive visualizations.
+- Follow the instructions in the notebook to load the model, select features, and generate interpretive visualisations.
 
 ## Future directions
 
@@ -67,7 +67,7 @@ There is significant scope for enhancing and extending this project. Possible ad
 
 - **Adaptation to other models**: The tool could be easily generalised to work with SAEs trained on other LLMs.
 - **Improved control integration**: Merging common controls between functionalities for streamlined interaction.
-- **Enhanced base prompt customization**: Allowing customization of the base prompt for the "ghost token" definitions (currently, the base prompt is '''A typical definition of "{ghost token}" would be''').
+- **Enhanced base prompt customisation**: Allowing customisation of the base prompt for the "ghost token" definitions (currently, the base prompt is '''A typical definition of "{ghost token}" would be''').
 - **Expanded PCA and linear combination capabilities**: Exploring the impacts of multiple PCA components and linear combinations of encoder- and decoder-based feature vectors.
 - **API integration for feature interpretation**: Exporting outputs for further interpretation to LLMs via API, enabling automated analysis.
 - **Feature taxonomy and parameter analysis**: Classifying features according to the efficacy of these two tools in capturing the types of text samples they activate on, as well as the typical parameter settings needed to produce relevant effective outputs.
